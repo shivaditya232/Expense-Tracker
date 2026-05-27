@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Top Navigation Bar -->
+    <nav id="navbar">
+        <div id="nav-brand">💰 Expense Tracker</div>
+
+        <div id="nav-links">
+            <button class="nav-btn active" id="btn-add" onclick="showPage('add')">➕ Add Expense</button>
+            <button class="nav-btn" id="btn-stats" onclick="showPage('stats')">📊 Stats</button>
+            <button class="nav-btn" id="btn-budget" onclick="showPage('budget')">💰 Budget</button>
+        </div>
+
+        <div id="month-nav">
+            <button id="prev-btn" onclick="prevMonth()">&#8249;</button>
+            <span id="current-month">May 2026</span>
+            <button id="next-btn" onclick="nextMonth()">&#8250;</button>
+        </div>
+    </nav>
+
+    <!-- PAGE 1: Add Expense -->
+    <div class="page active" id="page-add">
+        <div id="add-container">
+
+            <!-- Add Expense Form -->
+            <div id="form-card">
+                <h2 class="card-title">New Transaction</h2>
+
+                <!-- Income / Expense Toggle -->
+                <div id="type-toggle">
+                    <label class="toggle-label">
+                        <input type="radio" name="type" value="expense" checked> Expense
+                    </label>
+                    <label class="toggle-label">
+                        <input type="radio" name="type" value="income"> Income
+                    </label>
+                </div>
+
+                <label class="form-label">Amount (₹)</label>
+                <input type="number" id="amount" class="form-input" placeholder="0.00" min="0">
+
+                <label class="form-label">Category</label>
+                <select id="category" class="form-input">
+                    <option value="Food">🍜 Food</option>
+                    <option value="Transport">🚕 Transport</option>
+                    <option value="Education">📓 Education</option>
+                    <option value="Beauty">💄 Beauty</option>
+                    <option value="Shopping">🛍️ Shopping</option>
+                    <option value="Entertainment">🎬 Entertainment</option>
+                    <option value="Health">💊 Health</option>
+                    <option value="Others">📦 Others</option>
+                </select>
+
+                <label class="form-label">Description</label>
+                <input type="text" id="description" class="form-input" placeholder="What did you spend on?">
+
+                <label class="form-label">Payment Method</label>
+                <select id="payment" class="form-input">
+                    <option value="Cash">💵 Cash</option>
+                    <option value="UPI">📱 UPI</option>
+                </select>
+
+                <label class="form-label">Date</label>
+                <input type="date" id="date" class="form-input">
+
+                <button id="add-btn" onclick="addExpense()">Add Transaction</button>
+                <p id="form-msg"></p>
+            </div>
+
+            <!-- Transaction List -->
+            <div id="transaction-card">
+                <h2 class="card-title">Transactions</h2>
+
+                <!-- Summary -->
+                <div id="summary-bar">
+                    <div class="summary-item">
+                        <span class="summary-label">Income</span>
+                        <span class="summary-value income-color" id="total-income">₹ 0.00</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Expenses</span>
+                        <span class="summary-value expense-color" id="total-expense">₹ 0.00</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Total</span>
+                        <span class="summary-value" id="total-balance">₹ 0.00</span>
+                    </div>
+                </div>
+
+                <!-- List -->
+                <div id="transaction-list">
+                    <p class="no-data">No transactions this month</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- PAGE 2: Stats -->
+    <div class="page" id="page-stats">
+        <div id="stats-container">
+
+            <div id="stats-header">
+                <h2 class="card-title">Monthly Stats</h2>
+                <p id="stats-total-label">Total Expenses: <span id="stats-total">₹ 0.00</span></p>
+            </div>
+
+            <!-- Pie Chart -->
+            <div id="chart-card">
+                <div id="chart-container">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Category Breakdown List -->
+            <div id="category-card">
+                <h3 class="card-title">Category Breakdown</h3>
+                <div id="category-list">
+                    <p class="no-data">No expense data for this month</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- PAGE 3: Budget Manager -->
+    <div class="page" id="page-budget">
+        <div id="budget-container">
+
+            <div id="budget-header">
+                <h2 class="card-title">💰 Budget Manager</h2>
+                <p class="sub-text">Set monthly limits for each category</p>
+            </div>
+
+            <div id="budget-list"></div>
+
+            <button id="save-budget-btn" onclick="saveBudget()">Save Budgets</button>
+            <p id="budget-msg"></p>
+
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
